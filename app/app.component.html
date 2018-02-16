@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+
+      <h5>Input Filter</h5>
+
+      <input type="text" [(ngModel)]="listFilter" />
+      <h6>Input Filtered by: {{listFilter}} </h6>
+
+    </div>
+    <div class="col-sm-3">
+      <h5>Search by: </h5>
+      <select  name="searchType" id="searchType" #searchType>
+        <option value="movie_title"> movie title</option>
+        <option value="director">director</option>
+        <option value="actor"> actor</option>
+      </select>
+
+      <button (click)="testFn()" type="button" class="btn btn-large btn-block btn-default">button</button>
+
+    </div>
+
+    <div class="col-sm-3">
+      <h5>Dropdown Filter</h5>
+      <select type="string" [(ngModel)]="ddlistFilter" (ngModelChange)="showSelected()">
+        <option *ngFor="let genre of genres" [ngValue]="genre">{{genre.name}}</option>
+      </select>
+      <input type="hidden" [(ngModel)]="ddlistFilter.name" />
+      <h6>Dropdown Filtered by: {{ddlistFilter.name}} </h6>
+    </div>
+
+  </div>
+
+  <div class='table-responsive'>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Movie</th>
+          <th>Director</th>
+          <th>Actor</th>
+          <th>Genre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let product of productsArray | DropdownProductFilter: ddlistFilter.name | InputProductFilter: listFilter'>
+          <td>{{ product.id }}</td>
+          <td>{{ product.movie }}</td>
+          <td>{{ product.director }}</td>
+          <td>{{ product.actor }}</td>
+          <td>{{ product.genre }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
