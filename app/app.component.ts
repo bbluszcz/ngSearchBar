@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnChanges {
       'movie': 'Django',
       'director': 'Quentin Tarantino',
       'actor': 'Jamie Foxxn',
-      'genre': 'Drama',
+      'genre': 'Western',
     },
     {
       'id': 2,
