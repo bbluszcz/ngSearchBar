@@ -1,4 +1,4 @@
-export class IProduct {
+export class MovieModel {
     id: number;
     movie: string;
     director: string;

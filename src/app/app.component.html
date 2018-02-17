@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-xs-3">
+      <h5>Input Filter</h5>
+      <input type="text" [(ngModel)]="listFilter" />
+    </div>
+
+    <div class="col-xs-3">
+      <h5>Search by: </h5>
+      <select name="searchType" id="searchType" #searchType>
+        <option value="all"> All</option>
+        <option value="movie_title"> Movie</option>
+        <option value="director">Director</option>
+        <option value="actor"> Actor</option>
+      </select>
+    </div>
+
+    <div class="col-xs-3">
+      <h5>From genre</h5>
+      <select type="string" [(ngModel)]="ddlistFilter" (ngModelChange)="showSelected()">
+        <option *ngFor="let genre of genres" [ngValue]="genre">{{genre.name}}</option>
+      </select>
+      <input type="hidden" [(ngModel)]="ddlistFilter.name" />
+      <br>
+      <br>
+    </div>
+
+  </div>
+
+  <div class='table-responsive'>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Movie</th>
+          <th>Director</th>
+          <th>Actor</th>
+          <th>Genre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let movie of movies | DropdownFilter: ddlistFilter.name | InputFilter: listFilter'>
+          <td>{{ movie.id }}</td>
+          <td>{{ movie.movie }}</td>
+          <td>{{ movie.director }}</td>
+          <td>{{ movie.actor }}</td>
+          <td>{{ movie.genre }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

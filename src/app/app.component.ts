@@ -1,22 +1,24 @@
-import { ServiceService } from './service.service';
-import { Component, OnInit, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 
-import { IProduct } from './product';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+
+import { AppService } from './app.service';
+import { MovieModel } from './movie.model';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   @ViewChild('searchType') select: ElementRef;
   searchType: number;
-  // searchType = this.select.nativeElement.options.selectedIndex;
 
   message: string;
 
   listFilter = '';
   ddlistFilter = '';
-  _products: IProduct[];
 
   genres = [
     { id: 0, name: '' },
@@ -24,23 +26,26 @@ export class AppComponent implements OnInit, OnChanges {
     { id: 2, name: 'Thriller' },
     { id: 3, name: 'Comedy' },
     { id: 4, name: 'Adventure' },
-    { id: 5, name: 'Sci-fi' }
+    { id: 5, name: 'War' },
+    { id: 6, name: 'Western' },
+
   ];
 
-  productsArray = [
+  movies: MovieModel[] = [
     {
       'id': 1,
       'movie': 'Django',
       'director': 'Quentin Tarantino',
-      'actor': 'Jamie Foxxn',
+      'actor': 'Jamie Foxx',
       'genre': 'Western',
+
     },
     {
       'id': 2,
       'movie': 'Clockwise Orange',
-      'director': 'Christopher Nolan',
-      'actor': 'Bridget Jones',
-      'genre': 'Adventure',
+      'director': 'Stanley Kubric',
+      'actor': 'Kim Kardashian',
+      'genre': 'Thriller',
 
     },
     {
@@ -53,9 +58,9 @@ export class AppComponent implements OnInit, OnChanges {
     },
     {
       'id': 4,
-      'movie': 'Nad niemnem',
+      'movie': 'Big Lebowski',
       'director': 'Joel Coen',
-      'actor': 'Eliza Orzeszkowa',
+      'actor': 'Jeff Bridges',
       'genre': 'Comedy',
 
     },
@@ -69,33 +74,22 @@ export class AppComponent implements OnInit, OnChanges {
     },
     {
       'id': 6,
-      'movie': 'Pianista',
+      'movie': 'The Pianist',
       'director': 'Roman Polanski',
-      'actor': 'Stephen Curry',
-      'genre': 'War',
-
+      'actor': 'Arien Brody',
+      'genre': 'Drama',
     }
 
   ];
 
-  constructor(private service: ServiceService) {}
+  constructor(private service: AppService) { }
 
   ngOnInit() {
-    this.searchType = this.select.nativeElement.options.selectedIndex;
-    this.service.sendSearchType(this.searchType);
-    console.log('searchType', this.searchType);
-  }
-
-  ngOnChanges(searchType: SimpleChanges) {
+    const $searchType = Observable.fromEvent(this.select.nativeElement, 'change');
+    $searchType.subscribe(() => {
       this.searchType = this.select.nativeElement.options.selectedIndex;
       this.service.sendSearchType(this.searchType);
-  }
-
-
-  testFn() {
-    this.searchType = this.select.nativeElement.options.selectedIndex;
-    console.log('searchType', this.searchType);
-    this.service.sendSearchType(this.searchType);
+    });
   }
 
   showSelected() {
@@ -103,4 +97,3 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
 }
-
